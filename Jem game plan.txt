@@ -1,0 +1,7 @@
+Jem game plan
+
+Collect sounds (generic wind instruments at different notes)
+
+Use sounds to solve puzzles, some parts can use any sound, some need specific sounds that can be unlocked, final door needs all.
+
+Based on locks of doors to back rooms of Air Temples in Avatar: The Last Airbender, that need air bending to open by pushing air through, parts of the lock make sound.

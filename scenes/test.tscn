@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://ljtv58wsdntp"]
+
+[ext_resource type="Texture2D" uid="uid://5eonb0f1q13" path="res://assets/background/sky.png" id="1_at5dv"]
+[ext_resource type="PackedScene" uid="uid://c1yktgjvsplfm" path="res://player/Sprite.tscn" id="1_errlg"]
+[ext_resource type="PackedScene" uid="uid://bbvefmp7v76c3" path="res://scenes/platforms.tscn" id="2_bl13t"]
+[ext_resource type="Texture2D" uid="uid://cn5b5px6sshdc" path="res://assets/background/cloud.png" id="2_jcd4p"]
+[ext_resource type="Texture2D" uid="uid://ceqwhadaybou6" path="res://assets/background/mountain2.png" id="3_uacia"]
+[ext_resource type="Texture2D" uid="uid://dd72gveox85n6" path="res://assets/background/pine1.png" id="4_yk7ts"]
+[ext_resource type="Texture2D" uid="uid://ddyvd5bm6uuxl" path="res://assets/background/pine2.png" id="5_ajshl"]
+
+[node name="Test" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 480.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.796078, 1, 1)
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(880, 0)
+
+[node name="sky" type="Node2D" parent="Parallax2D"]
+position = Vector2(0, -61)
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D/sky"]
+offset_right = 880.0
+offset_bottom = 270.0
+texture = ExtResource("1_at5dv")
+
+[node name="clouds" type="Node2D" parent="Parallax2D"]
+position = Vector2(0, -52)
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D/clouds"]
+offset_right = 880.0
+offset_bottom = 270.0
+texture = ExtResource("2_jcd4p")
+
+[node name="mountains" type="Node2D" parent="Parallax2D"]
+position = Vector2(0, -9)
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D/mountains"]
+offset_right = 880.0
+offset_bottom = 270.0
+texture = ExtResource("3_uacia")
+
+[node name="tree back" type="Node2D" parent="Parallax2D"]
+position = Vector2(0, 79)
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D/tree back"]
+offset_right = 880.0
+offset_bottom = 270.0
+texture = ExtResource("4_yk7ts")
+
+[node name="tree front" type="Node2D" parent="Parallax2D"]
+position = Vector2(0, 93)
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D/tree front"]
+offset_right = 880.0
+offset_bottom = 270.0
+texture = ExtResource("5_ajshl")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_errlg")]
+position = Vector2(65, 196)
+
+[node name="Platforms" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(238, 245)
+scale = Vector2(24.7959, -3.3594)
+
+[node name="Platforms2" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(372, 82)
+scale = Vector2(5.44, 1)
+
+[node name="Platforms3" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(244, 126)
+scale = Vector2(3.56, 1)
+
+[node name="Platforms4" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(127, 170)
+scale = Vector2(4.84, 1)
+
+[node name="Platforms5" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(470, 187)
+scale = Vector2(0.92, 2.64)
