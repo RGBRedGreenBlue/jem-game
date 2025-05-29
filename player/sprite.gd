@@ -19,12 +19,11 @@ func _physics_process(delta: float) -> void:
 	update_states()
 	update_animation()
 	move_and_slide()
-	print(coyote_timer.time_left)
 
 
 
 func handle_input() -> void:
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("ui_accept"):
 		jump_buffer.start()
 	
 	var direction = Input.get_axis("ui_left", "ui_right")
@@ -37,12 +36,11 @@ func handle_input() -> void:
 
 
 func update_movement(delta: float) -> void:
-	if (is_on_floor() || coyote_timer.time_left > 0) && jump_buffer.time_left < 0:
+	if (is_on_floor() || coyote_timer.time_left > 0) && jump_buffer.time_left > 0:
 		velocity.y = jump_speed
 		current_state = State.JUMP
 		jump_buffer.stop()
 		coyote_timer.stop()
-		print("coyote stop")
 		
 	if current_state == State.JUMP:
 		velocity.y += gravity * delta
@@ -62,7 +60,6 @@ func update_states() -> void:
 			if not is_on_floor() && velocity.y > 0:
 				current_state = State.DOWN
 				coyote_timer.start()
-				print("coyote")
 				
 		State.JUMP when velocity.y > 0:
 			current_state = State.DOWN
