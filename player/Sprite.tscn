@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://c1yktgjvsplfm"]
+[gd_scene load_steps=18 format=3 uid="uid://c1yktgjvsplfm"]
 
 [ext_resource type="Texture2D" uid="uid://8qc85up6oo3" path="res://assets/sprite/Spritesheet.png" id="1_liy72"]
 [ext_resource type="Script" uid="uid://csypv0qql7qgp" path="res://player/sprite.gd" id="1_owwi3"]
+[ext_resource type="Script" uid="uid://bskdudrf8hov1" path="res://player/camera_2d.gd" id="3_qbmbf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fui21"]
 radius = 7.0
@@ -134,3 +135,13 @@ one_shot = true
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_smoothed = true
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+script = ExtResource("3_qbmbf")
