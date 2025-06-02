@@ -5,13 +5,21 @@ extends CharacterBody2D
 @export var jump_speed: int = -speed * 2
 @export var gravity: int = speed * 5
 @export var down_gravity_factor: float = 3
+@export var current_checkpoint: Vector2
 
 @onready var jump_buffer: Timer = $JumpBuffer
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
 @onready var coyote_timer: Timer = $CoyoteTimer
+@onready var death_layer: TileMapLayer = $"../Death"
+@onready var checkpoint_layer: TileMapLayer = $"../Checkpoint"
 
 enum State{IDLE, WALK, JUMP, DOWN}
 var current_state: State = State.IDLE
+
+
+func _ready():
+	current_checkpoint = global_position
+
 
 func _physics_process(delta: float) -> void:
 	handle_input()
@@ -19,7 +27,37 @@ func _physics_process(delta: float) -> void:
 	update_states()
 	update_animation()
 	move_and_slide()
+	checkpoint()
+	death()
 
+
+func death():
+	for i in get_slide_collision_count():
+		var collision: KinematicCollision2D = get_slide_collision(i)
+		var collider := collision.get_collider()
+
+		if collider == death_layer:
+			var tile_pos: Vector2i = death_layer.local_to_map(collision.get_position())
+			var tile_id: int = death_layer.get_cell_source_id(tile_pos)
+
+
+			set_physics_process(false)
+			velocity = Vector2.ZERO
+			global_position = current_checkpoint
+			current_state = State.IDLE
+			set_physics_process(true)
+
+
+func checkpoint():
+	for i in get_slide_collision_count():
+		var collision: KinematicCollision2D = get_slide_collision(i)
+		var collider := collision.get_collider()
+
+		if collider == checkpoint_layer:
+			var tile_pos: Vector2i = checkpoint_layer.local_to_map(collision.get_position())
+			var tile_id: int = checkpoint_layer.get_cell_source_id(tile_pos)
+
+			current_checkpoint = global_position
 
 
 func handle_input() -> void:
