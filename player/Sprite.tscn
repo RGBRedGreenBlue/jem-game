@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c1yktgjvsplfm"]
+[gd_scene load_steps=19 format=3 uid="uid://c1yktgjvsplfm"]
 
 [ext_resource type="Texture2D" uid="uid://8qc85up6oo3" path="res://assets/sprite/Spritesheet.png" id="1_liy72"]
 [ext_resource type="Script" uid="uid://csypv0qql7qgp" path="res://player/sprite.gd" id="1_owwi3"]
@@ -115,6 +115,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qbmbf"]
+size = Vector2(18, 22)
+
 [node name="Sprite" type="CharacterBody2D"]
 script = ExtResource("1_owwi3")
 
@@ -145,3 +148,17 @@ rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 script = ExtResource("3_qbmbf")
+
+[node name="carry" type="Node2D" parent="."]
+
+[node name="pickupcollision" type="Area2D" parent="carry"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="carry/pickupcollision"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_qbmbf")
+
+[node name="wall_detector" type="RayCast2D" parent="carry"]
+target_position = Vector2(24, 0)
+
+[node name="carry_point" type="Marker2D" parent="carry"]
+position = Vector2(0, -19)
