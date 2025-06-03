@@ -171,12 +171,12 @@ func drop_object():
 	carried_object.global_position = drop_position
 	carried_object.global_rotation = current_rotation
 	carried_object.global_scale = Vector2(current_scale.x, abs(current_scale.y))
+	print(carried_object.global_scale)
 
 	carried_object.freeze = false
 	carried_object.get_node("CollisionShape2D").disabled = false
 
 	carried_object = null
-
 
 
 func _on_Area2D_body_entered(body):
