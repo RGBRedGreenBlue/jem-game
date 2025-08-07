@@ -12,11 +12,6 @@ extends CharacterBody2D
 @onready var coyote_timer: Timer = $CoyoteTimer
 @onready var death_layer: TileMapLayer = $"../Death"
 @onready var checkpoint_layer: TileMapLayer = $"../Checkpoint"
-@onready var carry: Node2D = $carry
-@onready var collision_shape_2d: CollisionShape2D = $carry/pickupcollision/CollisionShape2D
-@onready var wall_detector: RayCast2D = $carry/wall_detector
-@onready var carry_point: Marker2D = $carry/carry_point
-@onready var pickupcollision: Area2D = $carry/pickupcollision
 
 var carried_object: Node2D = null
 var nearby_object: Node2D = null
@@ -28,9 +23,6 @@ var facing_dir = 0
 
 func _ready():
 	current_checkpoint = global_position
-	
-	pickupcollision.body_entered.connect(_on_Area2D_body_entered)
-	pickupcollision.body_exited.connect(_on_Area2D_body_exited)
 
 func _physics_process(delta: float) -> void:
 	handle_input()
@@ -75,13 +67,7 @@ func handle_input() -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		jump_buffer.start()
 	
-	if Input.is_action_just_pressed("pickup"):
-		if carried_object:
-			drop_object()
-		elif nearby_object:
-			pick_up_object(nearby_object)
-	
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis("left", "right")
 
 	if direction == 0:
 		velocity.x = move_toward(velocity.x, 0, acceleration)
@@ -90,10 +76,8 @@ func handle_input() -> void:
 		
 		
 	if velocity.x > 0:
-		carry.scale.x = 1
 		facing_dir = 1
 	elif velocity.x < 0:
-		carry.scale.x = -1
 		facing_dir = -1
 	else:
 		pass
@@ -146,44 +130,3 @@ func update_animation() -> void:
 		State.WALK: animations.play("walk")
 		State.JUMP: animations.play("jump_up")
 		State.DOWN: animations.play("jump_down")
-
-
-func pick_up_object(obj: Node2D):
-	carried_object = obj
-	obj.freeze = true
-	obj.get_node("CollisionShape2D").disabled = true
-	obj.reparent(carry_point)
-	obj.position = Vector2.ZERO
-
-
-func drop_object():
-	if wall_detector.is_colliding():
-		return
-
-	var drop_offset := Vector2(16 * facing_dir, 0)
-	var drop_position := carry_point.global_position + drop_offset
-
-	# Capture orientation (scale and rotation) BEFORE unparenting
-	var current_scale := carried_object.global_scale
-	var current_rotation := carried_object.global_rotation
-
-	carried_object.reparent(get_tree().current_scene)
-	carried_object.global_position = drop_position
-	carried_object.global_rotation = current_rotation
-	carried_object.global_scale = Vector2(current_scale.x, abs(current_scale.y))
-	print(carried_object.global_scale)
-
-	carried_object.freeze = false
-	carried_object.get_node("CollisionShape2D").disabled = false
-
-	carried_object = null
-
-
-func _on_Area2D_body_entered(body):
-	if body.is_in_group("carryable"):
-		nearby_object = body
-
-
-func _on_Area2D_body_exited(body):
-	if nearby_object == body:
-		nearby_object = null
